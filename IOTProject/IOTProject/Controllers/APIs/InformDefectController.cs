@@ -14,7 +14,8 @@ namespace IOTProject.Controllers.APIs
 {
     public class InformDefectController : ApiController
     {
-        public void Get( string defectId)
+        [System.Web.Http.Route("api/insert")]
+        public void Post( string defectId)
         {
  
 
@@ -75,7 +76,7 @@ namespace IOTProject.Controllers.APIs
 
 
         ////Realtime update the status
-         [System.Web.Http.Route("api/getData")]
+        [System.Web.Http.Route("api/getData")]
         public String Get()
         {
 
@@ -83,11 +84,30 @@ namespace IOTProject.Controllers.APIs
             using (IOTMOdel context = new IOTMOdel())
             {
 
-               
-                List<Issues> jcList = context.Issues.Where(x => x.status ==true || x.status == false).ToList();
+
+                List<Issues> jcList = context.Issues.Where(x => x.status == true || x.status == false).ToList();
                 string yourJson = Newtonsoft.Json.JsonConvert.SerializeObject(jcList);
 
-               
+
+                return yourJson;
+
+
+            }
+        }
+
+        [System.Web.Http.Route("api/issuesById")]
+        public string Get(string issueid)
+        {
+
+
+            using (IOTMOdel context = new IOTMOdel())
+            {
+
+
+                List<Issues> jcList = context.Issues.Where(x => x.DefectID == issueid).ToList();
+                string yourJson = Newtonsoft.Json.JsonConvert.SerializeObject(jcList);
+
+
                 return yourJson;
 
 
